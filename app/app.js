@@ -6,36 +6,44 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 const fileList = document.getElementById('file-list');
-fileList.addEventListener('click', loadFileList);
+fileList.addEventListener('click', fileListHandler);
 
 const songQueue = document.getElementById("song-queue");
 
 const audioPlayer = document.getElementById('audio-player');
 
-async function loadFileList(event) {
+async function fileListHandler(event) {
 	event.preventDefault();
 
 	const targetLink = event.target.closest('a');
 	const targetPath = targetLink.getAttribute('href');
-	const nextPath = currentPath + targetPath;
+	const targetUrl = currentPath + targetPath;
 
-	const newHtml = await getData(nextPath);
+	const response = await fetch(targetUrl);
+	const contentType = response.headers.get("content-type");
+
+	if (contentType.includes('text/html')) {
+		const newHtml = await response.text();
+		updateFileList(newHtml);
+		currentPath = targetUrl;
+	}
+}
+
+async function updateFileList(data) {
 	const parser = new DOMParser();
-	const newDoc = parser.parseFromString(newHtml, 'text/html');
-	console.log(newDoc.body.children);
+	const newDoc = parser.parseFromString(data, 'text/html');
 
+	// TODO: Something about this path traversal, it's awful.
 	const modDoc = `<pre><a href="../">..</a></pre>` + newDoc.body.innerHTML;
 
 	document.getElementById('file-list').innerHTML = modDoc;
-
-	currentPath = nextPath;
 }
+
+
 
 async function getData(targetUrl) {
 	const response = await fetch(targetUrl);
-	console.log(response);
 	const contentType = response.headers.get("content-type");
-	console.log(contentType);
 	if (contentType.includes('text/html')) {
 		text = await response.text();
 		return text;

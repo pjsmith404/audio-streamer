@@ -8,7 +8,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 const fileList = document.getElementById('file-list');
 fileList.addEventListener('click', fileListHandler);
 
-const songQueue = document.getElementById("song-queue");
+const songQueueElement = document.getElementById("song-queue");
+
+const songQueue = [];
 
 const audioPlayer = document.getElementById('audio-player');
 
@@ -27,6 +29,10 @@ async function fileListHandler(event) {
 		updateFileList(newHtml);
 		currentPath = targetUrl;
 	}
+
+	if (contentType.includes('audio/')) {
+		queueSong(targetUrl);
+	}
 }
 
 async function updateFileList(data) {
@@ -39,7 +45,12 @@ async function updateFileList(data) {
 	document.getElementById('file-list').innerHTML = modDoc;
 }
 
-
+async function queueSong(song) {
+	songQueue.push(song);
+	const li = document.createElement('li');
+	li.append(song);
+	songQueueElement.appendChild(li);
+}
 
 async function getData(targetUrl) {
 	const response = await fetch(targetUrl);

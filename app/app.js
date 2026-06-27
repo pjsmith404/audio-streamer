@@ -1,4 +1,5 @@
-const CONTENT_ROOT = "http://localhost:8080/content/"
+// TODO: Fetch this path from the server so it can be absolute
+const CONTENT_ROOT = "../content/"
 let currentPath = CONTENT_ROOT;
 
 document.addEventListener('DOMContentLoaded', async () => {

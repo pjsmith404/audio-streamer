@@ -100,22 +100,3 @@ async function getData(targetUrl) {
 	return 'Boooooo';
 }
 
-function trimPath(path) {
-	const splitPath = path.split('/');
-	console.log(splitPath);
-	splitPath.pop();
-	console.log(splitPath);
-	if (splitPath[-1] === '..') {
-		splitPath.pop();
-		splitPath.pop();
-		console.log(splitPath);
-		const trimmedPath = splitPath.join('/');
-
-		const finalPath = trimmedPath + '/';
-
-		return finalPath;
-	} else {
-		return path;
-	}
-}
-

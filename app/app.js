@@ -12,7 +12,30 @@ const songQueueElement = document.getElementById("song-queue");
 
 const songQueue = [];
 
-const audioPlayer = document.getElementById('audio-player');
+const audioPlayerDiv = document.getElementById('audio-player');
+const audioPlayer = new Audio();
+audioPlayer.controls = true;
+audioPlayerDiv.append(audioPlayer);
+audioPlayer.addEventListener('ended', enqueueSong);
+
+async function enqueueSong(event) {
+	const playingSong = event.srcElement.src;
+
+	if (playingSong === songQueue[0]) {
+		songQueue.shift();
+	}
+
+	updateSongQueue();
+
+	if (songQueue.length === 0) {
+		console.log("No songs queued");
+		event.target.src = null;
+		return;
+	}
+
+	event.target.src = songQueue[0];
+	event.target.play();
+}
 
 async function fileListHandler(event) {
 	event.preventDefault();
@@ -46,10 +69,24 @@ async function updateFileList(data) {
 }
 
 async function queueSong(song) {
+	if (songQueue.length === 0) {
+		audioPlayer.src = song;
+		audioPlayer.play();
+	}
+
 	songQueue.push(song);
-	const li = document.createElement('li');
-	li.append(song);
-	songQueueElement.appendChild(li);
+
+	updateSongQueue();
+}
+
+async function updateSongQueue() {
+	const newChildren = songQueue.map((song) => {
+		const li = document.createElement('li');
+		li.append(song);
+		return li;
+	});
+
+	songQueueElement.replaceChildren(...newChildren);
 }
 
 async function getData(targetUrl) {

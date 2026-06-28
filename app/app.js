@@ -29,6 +29,13 @@ audioPlayer.addEventListener('ended', async function(event) {
 	playNextSong(targetPlayer);
 });
 
+const nowPlayingHeading = document.createElement('h1');
+nowPlayingHeading.append('Now Playing');
+const nowPlayingDisplay = document.createElement('p');
+
+audioPlayerDiv.append(nowPlayingHeading);
+audioPlayerDiv.append(nowPlayingDisplay);
+
 async function playNextSong(audioPlayer) {
 	nextSong = songQueue[0];
 
@@ -41,6 +48,8 @@ async function playNextSong(audioPlayer) {
 
 	songQueue.shift();
 	updateSongQueue();
+
+	nowPlayingDisplay.replaceChildren(nextSong);
 	nowPlaying = nextSong;
 }
 

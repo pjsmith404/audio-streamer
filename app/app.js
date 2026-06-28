@@ -1,5 +1,5 @@
 const url = new URL(document.URL);
-const CONTENT_ROOT = `${url.origin}/content`;
+const CONTENT_ROOT = `${url.origin}/content/`;
 let currentPath = CONTENT_ROOT;
 
 document.addEventListener('DOMContentLoaded', async () => {

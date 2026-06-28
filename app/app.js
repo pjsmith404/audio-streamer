@@ -1,5 +1,5 @@
-// TODO: Fetch this path from the server so it can be absolute
-const CONTENT_ROOT = "../content/"
+const url = new URL(document.URL);
+const CONTENT_ROOT = `${url.origin}/content`;
 let currentPath = CONTENT_ROOT;
 
 document.addEventListener('DOMContentLoaded', async () => {

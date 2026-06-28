@@ -12,30 +12,36 @@ fileList.addEventListener('click', fileListHandler);
 const songQueueElement = document.getElementById("song-queue");
 
 const songQueue = [];
+let nowPlaying = undefined;
 
 const audioPlayerDiv = document.getElementById('audio-player');
 const audioPlayer = new Audio();
 audioPlayer.controls = true;
 audioPlayerDiv.append(audioPlayer);
-audioPlayer.addEventListener('ended', enqueueSong);
-
-async function enqueueSong(event) {
-	const playingSong = event.srcElement.src;
-
-	if (playingSong === songQueue[0]) {
-		songQueue.shift();
-	}
-
-	updateSongQueue();
-
+audioPlayer.addEventListener('ended', async function(event) {
+	console.log(event);
 	if (songQueue.length === 0) {
 		console.log("No songs queued");
-		event.target.src = null;
 		return;
 	}
 
-	event.target.src = songQueue[0];
-	event.target.play();
+	const targetPlayer = event.target;
+	playNextSong(targetPlayer);
+});
+
+async function playNextSong(audioPlayer) {
+	nextSong = songQueue[0];
+
+	if (!nextSong) {
+		nowPlaying = undefined;
+	}
+
+	audioPlayer.src = songQueue[0];
+	audioPlayer.play();
+
+	songQueue.shift();
+	updateSongQueue();
+	nowPlaying = nextSong;
 }
 
 async function fileListHandler(event) {
@@ -70,12 +76,11 @@ async function updateFileList(data) {
 }
 
 async function queueSong(song) {
-	if (songQueue.length === 0) {
-		audioPlayer.src = song;
-		audioPlayer.play();
-	}
-
 	songQueue.push(song);
+
+	if (!nowPlaying && songQueue.length === 1) {
+		playNextSong(audioPlayer);
+	}
 
 	updateSongQueue();
 }

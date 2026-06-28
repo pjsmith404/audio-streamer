@@ -33,7 +33,7 @@ async function playNextSong(audioPlayer) {
 	nextSong = songQueue[0];
 
 	if (!nextSong) {
-		nowPlaying = undefined;
+		return;
 	}
 
 	audioPlayer.src = songQueue[0];

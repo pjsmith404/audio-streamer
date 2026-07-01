@@ -7,7 +7,6 @@ import (
 )
 
 func main() {
-	fmt.Println("Hello world")
 	mux := http.NewServeMux()
 
 	mux.Handle("/{$}", http.RedirectHandler("/app/", 301))
@@ -23,5 +22,6 @@ func main() {
 		Handler: mux,
 	}
 
+	fmt.Println("Starting server...")
 	log.Fatal(s.ListenAndServe())
 }

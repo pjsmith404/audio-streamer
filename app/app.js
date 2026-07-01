@@ -35,6 +35,7 @@ const nowPlayingDiv = document.getElementById('now-playing');
 const nowPlayingHeading = document.createElement('h1');
 nowPlayingHeading.append('Now Playing');
 const nowPlayingDisplay = document.createElement('p');
+nowPlayingDisplay.replaceChildren("Nothing");
 
 nowPlayingDiv.append(nowPlayingHeading);
 nowPlayingDiv.append(nowPlayingDisplay);
@@ -52,6 +53,7 @@ async function playNextSong(audioPlayer) {
 	songQueue.shift();
 	updateSongQueue();
 
+	//TODO: Right now if there's no song in the queue, the last song will get stuck in now playing. Do I want that?
 	nowPlayingDisplay.replaceChildren(nextSong);
 	nowPlaying = nextSong;
 }

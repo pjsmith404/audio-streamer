@@ -29,12 +29,13 @@ audioPlayer.addEventListener('ended', async function(event) {
 	playNextSong(targetPlayer);
 });
 
+const nowPlayingDiv = document.getElementById('now-playing');
 const nowPlayingHeading = document.createElement('h1');
 nowPlayingHeading.append('Now Playing');
 const nowPlayingDisplay = document.createElement('p');
 
-audioPlayerDiv.append(nowPlayingHeading);
-audioPlayerDiv.append(nowPlayingDisplay);
+nowPlayingDiv.append(nowPlayingHeading);
+nowPlayingDiv.append(nowPlayingDisplay);
 
 async function playNextSong(audioPlayer) {
 	nextSong = songQueue[0];

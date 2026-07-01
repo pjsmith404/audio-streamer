@@ -1,0 +1,21 @@
+#file-list {
+	border: 2px solid powderblue;
+}
+
+#song-queue {
+	border: 2px solid powderblue;
+}
+
+#now-playing {
+	border: 2px solid powderblue;
+}
+
+#audio-player {
+	border: 2px solid powderblue;
+}
+
+.group {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+

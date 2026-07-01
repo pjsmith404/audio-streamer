@@ -10,6 +10,8 @@ func main() {
 	fmt.Println("Hello world")
 	mux := http.NewServeMux()
 
+	mux.Handle("/{$}", http.RedirectHandler("/app/", 301))
+
 	appHandler := http.StripPrefix("/app/", http.FileServer(http.Dir("./app")))
 	mux.Handle("/app/", appHandler)
 

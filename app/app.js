@@ -3,7 +3,9 @@ const CONTENT_ROOT = `${url.origin}/content/`;
 let currentPath = CONTENT_ROOT;
 
 document.addEventListener('DOMContentLoaded', async () => {
-	document.getElementById('file-list').innerHTML = await getData(CONTENT_ROOT);
+	const response = await fetch(CONTENT_ROOT);
+	const text = await response.text();
+	document.getElementById('file-list').innerHTML = text;
 });
 
 const fileList = document.getElementById('file-list');
@@ -103,16 +105,5 @@ async function updateSongQueue() {
 	});
 
 	songQueueElement.replaceChildren(...newChildren);
-}
-
-async function getData(targetUrl) {
-	const response = await fetch(targetUrl);
-	const contentType = response.headers.get("content-type");
-	if (contentType.includes('text/html')) {
-		text = await response.text();
-		return text;
-	}
-
-	return 'Boooooo';
 }
 
